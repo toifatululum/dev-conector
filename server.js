@@ -6,6 +6,9 @@ const app = express();
 //connect Database
 connectDB();
 
+// init midleware
+app.use(express.json({ extended: false }));
+
 app.get("/", (req, res) => res.send("API running"));
 
 //Define routers
