@@ -11,14 +11,16 @@ const User = require("../../models/Profile");
 //@access Public
 router.get("/user/:user_id", async (req, res) => {
   try {
+    console.log("1");
     const profile = await Profile.findOne({
       user: req.params.user_id
     }).populate("user", ["name", "avatar"]);
 
+    console.log("2");
     if (!profile) {
       return res.status(400).json({ msg: "there is no profil for this user" });
     }
-
+    console.log("3");
     res.json(profile);
   } catch (err) {
     console.error(err.message);
@@ -90,7 +92,7 @@ router.post(
 
       if (profile) {
         //update
-        profile = await Profile.findByIdAndUpdate(
+        profile = await Profile.findOneAndUpdate(
           { user: req.user.id },
           { $set: profileFields },
           { new: true }
