@@ -6,13 +6,13 @@ const { check, validationResult } = require("express-validator/check");
 const Profile = require("../../models/Profile");
 const User = require("../../models/Profile");
 
-//@route  Get api/profile/me
-//@desc   Get current users profile
-//@access Private
-router.get("/me", auth, async (req, res) => {
+//@route  Get api/profile/user/:user_id
+//@desc   Get profile by user ID
+//@access Public
+router.get("/user/:user_id", async (req, res) => {
   try {
     const profile = await Profile.findOne({
-      user: req.user.id
+      user: req.params.user_id
     }).populate("user", ["name", "avatar"]);
 
     if (!profile) {
@@ -108,5 +108,19 @@ router.post(
     }
   }
 );
+
+//@route GET api/profile
+//@desc  Get All Profile
+//@access Public
+
+router.get("/", async (req, res) => {
+  try {
+    const profiles = await Profile.find().populate("user", ["name", "avatar"]);
+    res.json(profiles);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 module.exports = router;
