@@ -52,6 +52,7 @@ router.post(
 //@desc   get a post
 //@access Private
 router.get("/", auth, async (req, res) => {
+  this.ulum("data");
   try {
     const posts = await Post.find().sort({ date: -1 });
     res.json(posts);
@@ -206,5 +207,9 @@ router.post(
     }
   }
 );
+
+const ulum = data => {
+  console.log(data);
+};
 
 module.exports = router;

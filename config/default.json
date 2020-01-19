@@ -1,4 +1,4 @@
 {
-  "mongoURI": "mongodb://ulum:ulum1701@cluster0-shard-00-00-4i7le.mongodb.net:27017,cluster0-shard-00-01-4i7le.mongodb.net:27017,cluster0-shard-00-02-4i7le.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majoritymongodb+srv://ulum:ulum1701@cluster0-4i7le.mongodb.net/test?retryWrites=true&w=majority",
+  "mongoURI": "mongodb://ulum:ulum1701@cluster0-shard-00-00-4i7le.mongodb.net:27017,cluster0-shard-00-01-4i7le.mongodb.net:27017,cluster0-shard-00-02-4i7le.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority",
   "jwtSecret": "mysecrettoken"
 }
