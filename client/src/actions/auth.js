@@ -10,7 +10,7 @@ import {
   LOGOUT
 } from "./types";
 
-import setAuthToken from "./utils/setAuthToken";
+import setAuthToken from "../utils/setAuthToken";
 
 //load user
 export const loadUser = () => async dispatch => {
@@ -57,14 +57,13 @@ export const register = ({ name, email, password }) => async dispatch => {
 };
 
 //login user
-export const login = ({ email, password }) => async dispatch => {
+export const login = (email, password) => async dispatch => {
   const config = {
     headers: {
-      "Content-Type": "aplication/json"
+      "Content-Type": "application/json"
     }
   };
   const body = JSON.stringify({ email, password });
-
   try {
     const res = await axios.post("/api/auth", body, config);
     dispatch({
@@ -85,6 +84,6 @@ export const login = ({ email, password }) => async dispatch => {
 };
 
 //Logout/ clear profile
-export const logout = () => {
+export const logout = () => async dispatch => {
   dispatch({ type: LOGOUT });
 };

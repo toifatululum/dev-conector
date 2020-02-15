@@ -1,6 +1,7 @@
-import React, { Fragment, userEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
+import "./index.css";
 import Navbar from "./components/layout/Navbar";
 import Landing from "./components/layout/Landing";
 import Register from "./components/auth/Register";
@@ -19,25 +20,27 @@ if (localStorage.token) {
 }
 
 const App = () => {
-  userEffect(() => {
+  useEffect(() => {
     store.dispatch(loadUser());
   }, []);
   return (
-    <Provider store={store}>
-      <Router>
-        <Fragment>
-          <Navbar />
-          <Route exact path="/" component={Landing} />
-          <section>
-            <Alert />
-            <Switch>
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/login" component={Login} />
-            </Switch>
-          </section>
-        </Fragment>
-      </Router>
-    </Provider>
+    <div className="App">
+      <Provider store={store}>
+        <Router>
+          <Fragment>
+            <Navbar />
+            <Route exact path="/" component={Landing} />
+            <section>
+              <Alert />
+              <Switch>
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login" component={Login} />
+              </Switch>
+            </section>
+          </Fragment>
+        </Router>
+      </Provider>
+    </div>
   );
 };
 
