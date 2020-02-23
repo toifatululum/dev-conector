@@ -1,8 +1,10 @@
 import React, { useState, Fragment } from "react";
+import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { createProfile } from "../../actions/profile";
 
-const CreateProfile = props => {
+const CreateProfile = ({ createProfile, history }) => {
   const [fromData, setFormData] = useState({
     company: "",
     website: "",
@@ -36,6 +38,11 @@ const CreateProfile = props => {
   const onChange = e =>
     setFormData({ ...fromData, [e.target.name]: e.target.value });
 
+  const onSubmit = e => {
+    e.preventDefault();
+    createProfile(FormData, history);
+  };
+
   return (
     <Fragment>
       <h1 className="large text-primary">Create Your Profile</h1>
@@ -44,7 +51,7 @@ const CreateProfile = props => {
         profile stand out
       </p>
       <small>* = required fields</small>
-      <form className="form">
+      <form className="form" onSubmit={e => onSubmit(e)}>
         <div className="form-group">
           <select name="status" value={status} onChange={e => onChange(e)}>
             <option value="0">*Select Profesional Status</option>
@@ -86,7 +93,13 @@ const CreateProfile = props => {
           </small>
         </div>
         <div className="form-group">
-          <input type="text" placeholder="* Skills" name="skills" />
+          <input
+            type="text"
+            placeholder="* Skills"
+            name="skills"
+            value={skills}
+            onChange={e => onChange(e)}
+          />
           <small className="form-text">
             Please use comma separated values (eg. HTML, CSS, JavaScript,PHP)
           </small>
@@ -96,6 +109,8 @@ const CreateProfile = props => {
             type="text"
             placeholder="Github Username"
             name="githubusername"
+            value={githubusername}
+            onChange={e => onChange(e)}
           />
           <small className="form-text">
             If you want your leastes repos and a Github Link, include your
@@ -103,7 +118,12 @@ const CreateProfile = props => {
           </small>
         </div>
         <div className="form-group">
-          <textarea placeholder="A short bio of yourself" name="bio"></textarea>
+          <textarea
+            placeholder="A short bio of yourself"
+            name="bio"
+            value={bio}
+            onChange={e => onChange(e)}
+          ></textarea>
           <small className="form-text">Tell us a litle about yourself</small>
         </div>
         <div className="my-2">
@@ -120,23 +140,53 @@ const CreateProfile = props => {
           <Fragment>
             <div className="form-group social-input">
               <i className="fa fa-twitter fa-2x"></i>
-              <input type="text" placeholder="Twitter URL" name="twitter" />
+              <input
+                type="text"
+                placeholder="Twitter URL"
+                name="twitter"
+                value={twitter}
+                onChange={e => onChange(e)}
+              />
             </div>
             <div className="form-group social-input">
               <i className="fa fa-facebook fa-2x"></i>
-              <input type="text" placeholder="Facebook URL" name="facebook" />
+              <input
+                type="text"
+                placeholder="Facebook URL"
+                name="facebook"
+                value={facebook}
+                onChange={e => onChange(e)}
+              />
             </div>
             <div className="form-group social-input">
               <i className="fa fa-youtube fa-2x"></i>
-              <input type="text" placeholder="Youtube URL" name="youtube" />
+              <input
+                type="text"
+                placeholder="Youtube URL"
+                name="youtube"
+                value={youtube}
+                onChange={e => onChange(e)}
+              />
             </div>
             <div className="form-group social-input">
               <i className="fa fa-linkedin fa-2x"></i>
-              <input type="text" placeholder="Linked-In URL" name="linkedin" />
+              <input
+                type="text"
+                placeholder="Linked-In URL"
+                name="linkedin"
+                value={linkedin}
+                onChange={e => onChange(e)}
+              />
             </div>
             <div className="form-group social-input">
               <i className="fa fa-instagram fa-2x"></i>
-              <input type="text" placeholder="Instagram URL" name="instagram" />
+              <input
+                type="text"
+                placeholder="Instagram URL"
+                name="instagram"
+                value={instagram}
+                onChange={e => onChange(e)}
+              />
             </div>
           </Fragment>
         )}
@@ -152,4 +202,8 @@ const CreateProfile = props => {
 
 CreateProfile.propTypes = {};
 
-export default CreateProfile;
+CreateProfile.propTypes = {
+  createProfile: PropTypes.func.isRequired
+};
+
+export default connect(null, { createProfile })(withRouter(CreateProfile));
