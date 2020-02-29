@@ -45,7 +45,7 @@ export const getProfiles = () => async dispatch => {
 };
 
 //get profile by ID
-export const getProfilesById = userId => async dispatch => {
+export const getProfileById = userId => async dispatch => {
   try {
     const res = await axios.get(`/api/profile/user/${userId}`);
     dispatch({
@@ -83,13 +83,8 @@ export const createProfile = (
   edit = false
 ) => async dispatch => {
   try {
-    const config = {
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    const res = await axios.post("/api/profile", FormData, config);
+    console.log(FormData);
+    const res = await axios.post("/api/profile", FormData);
 
     dispatch({
       type: GET_PROFILE,
@@ -98,9 +93,9 @@ export const createProfile = (
 
     dispatch(setAlert(edit ? "Profile Updated" : "Profile Created", "succes"));
 
-    if (!edit) {
-      history.push("/dashboard");
-    }
+    // if (!edit) {
+    //   history.push("/dashboard");
+    // }
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -131,7 +126,7 @@ export const addExperience = (FormData, history) => async dispatch => {
     });
 
     dispatch(setAlert("Experience Added", "succes"));
-    history.push("/dashboard");
+    // history.push("/dashboard");
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -162,7 +157,7 @@ export const addEducation = (FormData, history) => async dispatch => {
     });
 
     dispatch(setAlert("Education Added", "succes"));
-    history.push("/dashboard");
+    // history.push("/dashboard");
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {

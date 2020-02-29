@@ -1,10 +1,15 @@
-import React, { useState, Fragment } from "react";
-import { Link, withRouter } from "react-router-dom";
+import React, { useEffect, useState, Fragment } from "react";
+import { Link, withRouter, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { createProfile } from "../../actions/profile";
+import { createProfile, getCurrentProfile } from "../../actions/profile";
 
-const CreateProfile = ({ createProfile, history }) => {
+const CreateProfile = ({
+  createProfile,
+  getCurrentProfile,
+  profile: { profile, loading },
+  history
+}) => {
   const [fromData, setFormData] = useState({
     company: "",
     website: "",
@@ -41,11 +46,16 @@ const CreateProfile = ({ createProfile, history }) => {
     setFormData({ ...fromData, [e.target.name]: e.target.value });
 
   const onSubmit = e => {
-    e.preventDefault();
-    createProfile(FormData, history, true);
+    createProfile(FormData, history);
   };
 
-  return (
+  useEffect(() => {
+    getCurrentProfile();
+  }, [getCurrentProfile]);
+
+  return loading && profile === null ? (
+    <Redirect to="/dashboard" />
+  ) : (
     <Fragment>
       <h1 className="large text-primary">Create Your Profile</h1>
       <p className="lead">
@@ -87,8 +97,21 @@ const CreateProfile = ({ createProfile, history }) => {
             placeholder="Website"
             name="website"
             value={website}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
+
+          <small className="form-text">
+            Could be your own or a company website
+          </small>
+          <div className="form-group">
+            <input
+              type="text"
+              placeholder="Location"
+              name="location"
+              value={location}
+              onChange={onChange}
+            />
+          </div>
 
           <small className="form-text">
             City & state suggest (eg. Boston, MA
@@ -100,7 +123,7 @@ const CreateProfile = ({ createProfile, history }) => {
             placeholder="* Skills"
             name="skills"
             value={skills}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
           <small className="form-text">
             Please use comma separated values (eg. HTML, CSS, JavaScript,PHP)
@@ -112,7 +135,7 @@ const CreateProfile = ({ createProfile, history }) => {
             placeholder="Github Username"
             name="githubusername"
             value={githubusername}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
           <small className="form-text">
             If you want your leastes repos and a Github Link, include your
@@ -147,7 +170,7 @@ const CreateProfile = ({ createProfile, history }) => {
                 placeholder="Twitter URL"
                 name="twitter"
                 value={twitter}
-                onChange={e => onChange(e)}
+                onChange={onChange}
               />
             </div>
             <div className="form-group social-input">
@@ -157,7 +180,7 @@ const CreateProfile = ({ createProfile, history }) => {
                 placeholder="Facebook URL"
                 name="facebook"
                 value={facebook}
-                onChange={e => onChange(e)}
+                onChange={onChange}
               />
             </div>
             <div className="form-group social-input">
@@ -167,7 +190,7 @@ const CreateProfile = ({ createProfile, history }) => {
                 placeholder="Youtube URL"
                 name="youtube"
                 value={youtube}
-                onChange={e => onChange(e)}
+                onChange={onChange}
               />
             </div>
             <div className="form-group social-input">
@@ -177,7 +200,7 @@ const CreateProfile = ({ createProfile, history }) => {
                 placeholder="Linked-In URL"
                 name="linkedin"
                 value={linkedin}
-                onChange={e => onChange(e)}
+                onChange={onChange}
               />
             </div>
             <div className="form-group social-input">
@@ -187,25 +210,30 @@ const CreateProfile = ({ createProfile, history }) => {
                 placeholder="Instagram URL"
                 name="instagram"
                 value={instagram}
-                onChange={e => onChange(e)}
+                onChange={onChange}
               />
             </div>
           </Fragment>
         )}
 
-        <input type="submit" className="btn btn-primary my-1" />
-        <a className="btn btn-light my-1" href="dashboard.html">
+        <button onClick={onSubmit} className="btn btn-primary my-1" />
+        <Link className="btn btn-light my-1" to="/dashboard">
           Go Back
-        </a>
+        </Link>
       </form>
     </Fragment>
   );
 };
 
-CreateProfile.propTypes = {};
-
 CreateProfile.propTypes = {
-  createProfile: PropTypes.func.isRequired
+  createProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired
 };
 
-export default connect(null, { createProfile })(withRouter(CreateProfile));
+const mapStateToProps = state => ({
+  profile: state.profile
+});
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
+  withRouter(CreateProfile)
+);
