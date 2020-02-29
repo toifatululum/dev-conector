@@ -45,7 +45,7 @@ const EditProfile = ({
       youtube: loading || !profile.social ? "" : profile.social.youtube,
       instagram: loading || !profile.social ? "" : profile.social.instagram
     });
-  }, [loading]);
+  }, [loading, getCurrentProfile]);
 
   const {
     company,
@@ -114,6 +114,15 @@ const EditProfile = ({
             value={website}
             onChange={e => onChange(e)}
           />
+          <div className="form-group">
+            <input
+              type="text"
+              placeholder="location"
+              name="location"
+              value={location}
+              onChange={onChange}
+            />
+          </div>
 
           <small className="form-text">
             City & state suggest (eg. Boston, MA
