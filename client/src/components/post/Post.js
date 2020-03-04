@@ -7,8 +7,8 @@ import { getPost } from "../../actions/post";
 
 const Post = ({ getPost, post: { post, loading } }) => {
   useEffect(() => {
-    getPosts();
-  }, [getPosts]);
+    getPost();
+  }, [getPost]);
   return loading ? (
     <Spinner />
   ) : (
@@ -19,7 +19,7 @@ const Post = ({ getPost, post: { post, loading } }) => {
       </p>
       {/* {PostForm} */}
       <div className="posts">
-        {Posts.map(post => {
+        {Post.map(post => {
           <PostItem key={post._id} post={post} />;
         })}
       </div>
@@ -27,7 +27,7 @@ const Post = ({ getPost, post: { post, loading } }) => {
   );
 };
 
-Posts.propTypes = {
+Post.propTypes = {
   getPost: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired
 };
@@ -36,4 +36,4 @@ const mapStateToProps = state => ({
   post: state.post
 });
 
-export default connect(mapStateToProps, { getPost })(Posts);
+export default connect(mapStateToProps, { getPost })(Post);
