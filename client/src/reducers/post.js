@@ -9,7 +9,7 @@ import {
   REMOVE_COMMENT
 } from "../actions/types";
 const initialState = {
-  post: [],
+  posts: [],
   post: null,
   loading: true,
   error: {}
